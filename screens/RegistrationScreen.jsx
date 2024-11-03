@@ -4,7 +4,6 @@ import {
   View,
   Text,
   ImageBackground,
-  Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -13,25 +12,16 @@ import {
   Alert,
 } from "react-native";
 
-
 import Buttons from "../components/Buttons";
 import Inputs from "../components/InputsSing";
 import ImageBG from "../assets/images/PhotoBG.jpg";
-import AddAvatar from "../assets/images/add.png";
-import profilePhoto from "../assets/images/Avatar.jpg"; 
 
-const RegistrationScreen = ({ navigation }) => {
 
-  const [name, setName] = useState("");
+const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isButtonActive, setButtonActive] = useState(false);
-
-
-  const handleNameChange = (value) => {
-    setName(value);
-  };
 
   const handleEmailChange = (value) => {
     setEmail(value);
@@ -42,31 +32,25 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   const reset = () => {
-    setName("");
     setEmail("");
     setPassword("");
   };
 
   useEffect(() => {
-    const isNameValid = name.length >= 2;
-    const isEmailValid = email.includes("@") && email.includes(".");
-    const isPasswordValid = password.length >= 6;
-
-    if (isNameValid && isEmailValid && isPasswordValid) {
+    if (email && password) {
       setButtonActive(true);
-    } else {
-      setButtonActive(false);
+      return;
     }
-  }, [name, email, password]);
+    setButtonActive(false);
+  }, [email, password]);
 
-
-
-  const signUp = () => {
-    
-    if (email && password && name) {
-      console.log("sing IN", email, password, name)
-      reset();
-    }
+ 
+  const signIn = () => {
+    Alert.alert("Credentials", `${email} ${password}`);
+    console.log("email-->", email);
+    console.log("password-->", password);
+    reset();
+   navigation.navigate("Home"); 
   };
 
   return (
@@ -77,26 +61,7 @@ const RegistrationScreen = ({ navigation }) => {
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
             <View style={styles.contentBox}>
-              <View style={styles.avatarBox}>
-                <Image
-                  style={styles.avatarImg}
-                  source={ profilePhoto }
-                />
-
-                <TouchableOpacity style={styles.avatarAdd}>
-                  <Image style={styles.tinyLogo} source={AddAvatar} />
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.contentTitle}>Реєстрація</Text>
-
-              <Inputs
-                value={name}
-                onTextChange={handleNameChange}
-                placeholder="Логін"
-                showPassword={true}
-                keyboard="default"
-              />
+              <Text style={styles.contentTitle}>Увійти</Text>
 
               <Inputs
                 value={email}
@@ -127,14 +92,17 @@ const RegistrationScreen = ({ navigation }) => {
               <Buttons
                 buttonSize="large"
                 isButtonActive={isButtonActive}
-                onPress={signUp}
+                onPress={signIn}
               >
-                Зареєстуватися
+                Увійти
               </Buttons>
-<View style={styles.textContainer}>
-                <Text style={styles.text}>Вже є акаунт?</Text>
-                <TouchableOpacity onPress={signUp}>
-                  <Text style={[styles.text, styles.textSolid]}>Увійти</Text>
+
+              <View style={styles.textContainer}>
+                <Text style={styles.text}>Немає акаунту?</Text>
+                <TouchableOpacity onPress={()=> console.log("Зареєструватися")}>
+                  <Text style={[styles.text, styles.textSolid]}>
+                    Зареєструватися
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -145,7 +113,7 @@ const RegistrationScreen = ({ navigation }) => {
   );
 };
 
-export default RegistrationScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -154,11 +122,11 @@ const styles = StyleSheet.create({
   imageBg: {
     width: "100%",
     height: "100%",
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   contentBox: {
     width: "100%",
-    height: 549,
+    height: 489,
     backgroundColor: "#FFFFFF",
     marginTop: "auto",
     borderTopLeftRadius: 25,
@@ -166,25 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 16,
     paddingRight: 16,
-  },
-  avatarBox: {
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-    position: "relative",
-    top: -60,
-  },
-  avatarImg: {
-    width: 120,
-    height: 120,
-    borderRadius: 16,
-    position: "relative",
-  },
-  avatarAdd: {
-    position: "absolute",
-    left: 107,
-    top: 80,
+    paddingTop: 32,
   },
   contentTitle: {
     fontSize: 17,
@@ -194,7 +144,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     borderColor: "#E8E8E8",
-    backgroundColor: "#F6F6F6",
+    backgroundColor:"#F6F6F6",
     width: "100%",
     height: 50,
     padding: 16,
