@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import {Colors} from "../styles/global";
 
 const Buttons = ({ children, onPress, isButtonActive, buttonSize }) => {
   return (
@@ -10,14 +11,14 @@ const Buttons = ({ children, onPress, isButtonActive, buttonSize }) => {
           ? styles.buttonSmall
           : buttonSize === "medium"
           ? styles.buttonMedium
-          : styles.buttonLarge,
+          : styles.buttonLarge, 
       ]}
       onPress={onPress}
     >
       <Text
         style={[
           styles.buttonText,
-          { color: isButtonActive ? '#FFFFFF' : '#BDBDBD' },
+          { color: isButtonActive ? Colors.whites : Colors.text_gray },
         ]}
       >
         {children}
@@ -30,14 +31,14 @@ export default Buttons;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#FF6C00",
+    backgroundColor: Colors.oranges,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 16,
   },
   disabledButton: {
-    backgroundColor: "#F6F6F6",
+    backgroundColor: Colors.light_gray,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -60,3 +61,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+

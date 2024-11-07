@@ -4,8 +4,6 @@ import {
   View,
   Text,
   ImageBackground,
-  Image,
-  Pressable,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -17,20 +15,13 @@ import {
 import Buttons from "../components/Buttons";
 import Inputs from "../components/InputsSing";
 import ImageBG from "../assets/images/PhotoBG.jpg";
-import AddAvatar from "../assets/images/add.png";
-import Avatar from "../assets/images/Avatar.jpg";
 import { Colors, Fonts } from "../styles/global";
 
-const RegistrationScreen = ({navigation, route}) => {
-  const [name, setName] = useState("");
+const LoginScreen = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isButtonActive, setButtonActive] = useState(false);
-
-  const handleNameChange = (value) => {
-    setName(value);
-  };
 
   const handleEmailChange = (value) => {
     setEmail(value);
@@ -41,30 +32,28 @@ const RegistrationScreen = ({navigation, route}) => {
   };
 
   const reset = () => {
-    setName("");
     setEmail("");
     setPassword("");
   };
 
   useEffect(() => {
-    if (name && email && password) {
+    if (email && password) {
       setButtonActive(true);
       return;
     }
     setButtonActive(false);
-  }, [name, email, password]);
+  }, [email, password]);
 
   const navi = () => {
-    navigation.navigate('Login')
+    navigation.navigate("Registration");
   };
 
-  const signUp = () => {
-    Alert.alert("Credentials", `${name} + ${email} + ${password}`);
-    console.log("name-->", name);
+  const signIn = () => {
+    Alert.alert("Credentials", `${email} + ${password}`);
     console.log("email-->", email);
     console.log("password-->", password);
     reset();
-    navigation.navigate('Start')
+    navigation.navigate("Start");
   };
 
   return (
@@ -75,22 +64,7 @@ const RegistrationScreen = ({navigation, route}) => {
         >
           <ImageBackground source={ImageBG} style={styles.imageBg}>
             <View style={styles.contentBox}>
-              <View>
-                <Image style={styles.avatarBox} source={Avatar} />
-                <Pressable style={styles.avatarAdd}>
-                  <Image style={styles.tinyLogo} source={AddAvatar} />
-                </Pressable>
-              </View>
-
-              <Text style={styles.contentTitle}>Реєстрація</Text>
-
-              <Inputs
-                value={name}
-                onTextChange={handleNameChange}
-                placeholder="Логін"
-                showPassword={true}
-                keyboard="default"
-              />
+              <Text style={styles.contentTitle}>Увійти</Text>
 
               <Inputs
                 value={email}
@@ -121,15 +95,17 @@ const RegistrationScreen = ({navigation, route}) => {
               <Buttons
                 buttonSize="large"
                 isButtonActive={isButtonActive}
-                onPress={signUp}
+                onPress={signIn}
               >
-                Зареєстуватися
+                Увійти
               </Buttons>
 
               <View style={styles.textContainer}>
-                <Text style={styles.text}>Вже є акаунт?</Text>
+                <Text style={styles.text}>Немає акаунту?</Text>
                 <TouchableOpacity onPress={navi}>
-                  <Text style={[styles.text, styles.textSolid]}>Увійти</Text>
+                  <Text style={[styles.text, styles.textSolid]}>
+                    Зареєструватися
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -140,7 +116,7 @@ const RegistrationScreen = ({navigation, route}) => {
   );
 };
 
-export default RegistrationScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -152,7 +128,7 @@ const styles = StyleSheet.create({
   },
   contentBox: {
     width: "100%",
-    height: 549,
+    height: 489,
     backgroundColor: Colors.whites,
     marginTop: "auto",
     borderTopLeftRadius: 25,
@@ -160,19 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 16,
     paddingRight: 16,
-  },
-  avatarBox: {
-    width: 120,
-    height: 120,
-    backgroundColor: Colors.light_gray,
-    borderRadius: 16,
-    position: "relative",
-    top: -60,
-  },
-  avatarAdd: {
-    position: "absolute",
-    left: 107,
-    top: 20,
+    paddingTop: 32,
   },
   contentTitle: {
     fontFamily: "roboto-medium",
