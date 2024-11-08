@@ -3,7 +3,7 @@ import { Colors, Fonts } from "../styles/global";
 import Posts from "../components/Posts";
 import postData from "../assets/data/postData";
 
-const PostsScreen = ({ navigation, route }) => {
+const PostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
@@ -22,9 +22,10 @@ const PostsScreen = ({ navigation, route }) => {
           data={postData}
           renderItem={({ item }) => (
             <Posts
-              onPress={() => {
-                navigation.navigate("Comment");
-              }}
+              onPressComment={() => navigation.navigate("Comment")}
+              onPressMap={() =>
+                navigation.navigate("Maps", { location: item.location })
+              }
               postImg={item.postImg}
               postName={item.postName}
               postComment={item.postComment}
@@ -46,8 +47,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: 32,
-    backgroundColor: "#fff",
-    borderColor: "#E5E5E5",
+    backgroundColor: Colors.whites,
+    borderColor: Colors.light_gray,
     borderWidth: 1,
   },
   userInfo: {

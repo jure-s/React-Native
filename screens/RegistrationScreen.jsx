@@ -21,7 +21,7 @@ import AddAvatar from "../assets/images/add.png";
 import Avatar from "../assets/images/Avatar.jpg";
 import { Colors, Fonts } from "../styles/global";
 
-const RegistrationScreen = ({navigation, route}) => {
+const RegistrationScreen = ({ navigation, route }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +55,7 @@ const RegistrationScreen = ({navigation, route}) => {
   }, [name, email, password]);
 
   const navi = () => {
-    navigation.navigate('Login')
+    navigation.navigate("Login");
   };
 
   const signUp = () => {
@@ -64,16 +64,16 @@ const RegistrationScreen = ({navigation, route}) => {
     console.log("email-->", email);
     console.log("password-->", password);
     reset();
-    navigation.navigate('Start')
+    navigation.navigate("Home");
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
+        <ImageBackground source={ImageBG} style={styles.imageBg}>
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
-          <ImageBackground source={ImageBG} style={styles.imageBg}>
             <View style={styles.contentBox}>
               <View>
                 <Image style={styles.avatarBox} source={Avatar} />
@@ -133,8 +133,8 @@ const RegistrationScreen = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </ImageBackground>
         </KeyboardAvoidingView>
+          </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
   imageBg: {
     width: "100%",
     height: "100%",
+    justifyContent: 'flex-end',
   },
   contentBox: {
     width: "100%",
@@ -216,3 +217,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 });
+
+
+

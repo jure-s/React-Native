@@ -53,16 +53,16 @@ const LoginScreen = ({ navigation, route }) => {
     console.log("email-->", email);
     console.log("password-->", password);
     reset();
-    navigation.navigate("Start");
+    navigation.navigate("Home");
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
-          <ImageBackground source={ImageBG} style={styles.imageBg}>
+        <ImageBackground source={ImageBG} style={styles.imageBg}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
             <View style={styles.contentBox}>
               <Text style={styles.contentTitle}>Увійти</Text>
 
@@ -109,8 +109,8 @@ const LoginScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </ImageBackground>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   imageBg: {
     width: "100%",
     height: "100%",
+    justifyContent: 'flex-end',
   },
   contentBox: {
     width: "100%",

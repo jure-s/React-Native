@@ -3,7 +3,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import {Colors, Fonts} from "../styles/global";
 
-const Posts = ({ postImg, postName, postComment, postLike, location, onPress }) => {
+const Posts = ({ postImg, postName, postComment, postLike, location, onPressComment, onPressMap }) => {
 
 
   return (
@@ -15,8 +15,8 @@ const Posts = ({ postImg, postName, postComment, postLike, location, onPress }) 
 
       <View style={styles.itemInform}>
         <View style={styles.itemArea}>
-          <TouchableOpacity onPress={onPress} style={styles.itemAreaMarg}>
-            <Feather name="message-circle" size={24} color={Colors.text_gray} />
+          <TouchableOpacity onPress={onPressComment} style={styles.itemAreaMarg}>
+            <Feather color={postComment === 0 ? Colors.text_gray : Colors.oranges} name="message-circle" size={24} />
             <Text style={styles.itemCommentNum}>{postComment}</Text>
           </TouchableOpacity>
 
@@ -28,10 +28,10 @@ const Posts = ({ postImg, postName, postComment, postLike, location, onPress }) 
           )}
         </View>
 
-        <View style={styles.itemArea}>
+        <TouchableOpacity onPress={onPressMap} style={styles.itemArea}>
           <Feather name="map-pin" size={24} color={Colors.text_gray} />
           <Text style={styles.itemAddres}>{location}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

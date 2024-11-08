@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import {Colors} from "../styles/global";
+import { Colors } from "../styles/global";
 
 const Buttons = ({ children, onPress, isButtonActive, buttonSize }) => {
   return (
@@ -11,7 +11,7 @@ const Buttons = ({ children, onPress, isButtonActive, buttonSize }) => {
           ? styles.buttonSmall
           : buttonSize === "medium"
           ? styles.buttonMedium
-          : styles.buttonLarge, 
+          : styles.buttonLarge,
       ]}
       onPress={onPress}
     >
@@ -61,5 +61,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-

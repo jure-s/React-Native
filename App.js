@@ -4,7 +4,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import ButtomTabNavigator from "./navigation/ButtomTabNavigator";
 import StackNavigator from "./navigation/StackNavigator";
 
 export default function App() {
@@ -27,7 +26,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      {/* <ButtomTabNavigator/> */}
       <StackNavigator />
     </NavigationContainer>
   );

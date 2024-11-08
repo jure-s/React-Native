@@ -5,28 +5,26 @@ import {
   ImageBackground,
   Image,
   FlatList,
-  Pressable,
   TouchableOpacity,
 } from "react-native";
 import Posts from "../components/Posts";
 import { Colors, Fonts } from "../styles/global";
-
 import ImageBG from "../assets/images/PhotoBG.jpg";
 import AddAvatar from "../assets/images/add.png";
 import Avatar from "../assets/images/Avatar.jpg";
 import postData from "../assets/data/postData";
 import LogOutButton from "../components/LogOutButton";
 
-const ProfileScreen = ({ navigation, route }) => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={ImageBG} style={styles.imageBg}>
         <View style={styles.contentBox}>
           <View>
             <Image style={styles.avatarBox} source={Avatar} />
-            <Pressable style={styles.avatarAdd}>
+            <TouchableOpacity style={styles.avatarAdd}>
               <Image source={AddAvatar} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.exitBtn}>
@@ -40,9 +38,10 @@ const ProfileScreen = ({ navigation, route }) => {
               data={postData}
               renderItem={({ item }) => (
                 <Posts
-                  onPress={() => {
-                    navigation.navigate("Comment");
-                  }}
+                  onPressComment={() => navigation.navigate("Comment")}
+                  onPressMap={() =>
+                    navigation.navigate("Maps", { location: item.location })
+                  }
                   postImg={item.postImg}
                   postName={item.postName}
                   postComment={item.postComment}
@@ -109,6 +108,6 @@ const styles = StyleSheet.create({
   },
   fotoList: {
     width: "100%",
-    height: 450,
+    height: 500,
   },
 });

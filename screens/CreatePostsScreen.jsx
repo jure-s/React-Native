@@ -1,56 +1,101 @@
 import React, { useState, useEffect } from "react";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Feather from "@expo/vector-icons/Feather";
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  Image,
+} from "react-native";
 import InputsCreate from "../components/InputsCreate";
 import Buttons from "../components/Buttons";
-import {Colors, Fonts} from "../styles/global";
+import PhotoCamera from "../components/PhotoCamera";
+import GalleryModal from "../components/GalleryModal";
+import LocationFetcher from "../components/PhotoLocation";
+import { Colors, Fonts } from "../styles/global";
 
-const CreatePostsScreen = () => {
+const CreatePostsScreen = ({ navigation }) => {
   const [namePhoto, setNamePhoto] = useState("");
-  const [mapPhoto, setMapPhoto] = useState("");
   const [isButtonActive, setButtonActive] = useState(false);
+  const [location, setLocation] = useState(null);
+  const [geocode, setGeocode] = useState(null);
+  const [photoUri, setPhotoUri] = useState(null);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isCameraActive, setCameraActive] = useState(false);
 
   const handleNameChange = (value) => {
     setNamePhoto(value);
   };
 
-  const handleMapChange = (value) => {
-    setMapPhoto(value);
-  };
-
-  const reset = () => {
-    setNamePhoto("");
-    setMapPhoto("");
+  const handleSelectPhoto = (uri) => {
+    setPhotoUri(uri);
+    setIsGalleryOpen(false);
   };
 
   useEffect(() => {
-    if (namePhoto && mapPhoto) {
+    if (namePhoto && location && photoUri) {
       setButtonActive(true);
-      return;
+    } else {
+      setButtonActive(false);
     }
-    setButtonActive(false);
-  }, [namePhoto, mapPhoto]);
+  }, [namePhoto, location, photoUri]);
+
+  const reset = () => {
+    setNamePhoto("");
+    setLocation(null);
+    setGeocode(null);
+    setPhotoUri(null);
+  };
 
   const create = () => {
-    Alert.alert("Credentials", `${namePhoto} + ${mapPhoto}`);
+    Alert.alert("Credentials", `${namePhoto} + ${geocode} + ${location}`);
     reset();
   };
 
   return (
     <View style={styles.container}>
+      <LocationFetcher setLocation={setLocation} setGeocode={setGeocode} />
+
       <View style={styles.imgSection}>
         <View style={styles.imgContainer}>
-          <TouchableOpacity style={styles.iconContainer}>
-            <MaterialIcons
-              name="photo-camera"
-              size={24}
-              color={Colors.text_gray}
+          {photoUri && (
+            <Image
+              source={{ uri: photoUri }}
+              style={{
+                height: "100%",
+                width: "100%",
+              }}
             />
-          </TouchableOpacity>
+          )}
+
+          {photoUri ? (
+            <Image source={{ uri: photoUri }} style={styles.image} />
+          ) : isCameraActive ? (
+            <PhotoCamera style={styles.came} onCapture={handleSelectPhoto} />
+          ) : (
+            <TouchableOpacity onPress={() => setCameraActive(true)}>
+              <Text style={styles.activateCameraText}>Включити камеру</Text>
+            </TouchableOpacity>
+          )}
         </View>
-        <Text style={styles.fotoWork}>Завантажте фото</Text>
+
+        {photoUri ? (
+          <Text style={styles.fotoWork} onPress={() => setPhotoUri(null)}>
+            Видалити фото
+          </Text>
+        ) : (
+          <TouchableOpacity onPress={() => setIsGalleryOpen(true)}>
+            <Text style={styles.fotoWork}>Завантажте фото</Text>
+          </TouchableOpacity>
+        )}
       </View>
+
+      <GalleryModal
+        visible={isGalleryOpen}
+        onClose={() => setIsGalleryOpen(false)}
+        onSelectPhoto={handleSelectPhoto}
+      />
 
       <View>
         <View style={styles.positionContainer}>
@@ -62,32 +107,37 @@ const CreatePostsScreen = () => {
         </View>
 
         <View style={[styles.positionContainer, styles.positionContainerImg]}>
-          <Feather
-            style={styles.inputImg}
-            name="map-pin"
-            size={24}
-            color={Colors.text_gray}
-          />
+          <TouchableOpacity>
+            <Feather
+              style={styles.inputImg}
+              name="map-pin"
+              size={24}
+              color={Colors.text_gray}
+            />
+          </TouchableOpacity>
           <InputsCreate
-            value={mapPhoto}
-            onTextChange={handleMapChange}
+            value={location}
             placeholder="Місцевість..."
+            onChangeText={setLocation}
           />
         </View>
 
         <Buttons
+          onPress={() => {
+            navigation.navigate("Posts");
+            create();
+          }}
           buttonSize="large"
           isButtonActive={isButtonActive}
-          onPress={create}
         >
           Опубліковати
         </Buttons>
 
-        <View style={styles.treshBtn}>
+        <TouchableOpacity style={styles.treshBtn}>
           <Buttons buttonSize="medium">
             <Feather name="trash-2" size={24} color={Colors.text_gray} />
           </Buttons>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -101,8 +151,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: 32,
-    backgroundColor: "#fff",
-    borderColor: "#E5E5E5",
+    backgroundColor: Colors.whites,
+    borderColor: Colors.light_gray,
     borderWidth: 1,
   },
   imgSection: {
@@ -117,6 +167,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
+    overflow: "hidden",
+  },
+  came: {
+    width: "100%",
+    height: 100,
+    borderRadius: 8,
   },
   iconContainer: {
     width: 60,
@@ -139,13 +195,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   positionContainerImg: {
-    marginBottom: 32,
-  },
-  inputImg: {
-    marginRight: 6,
+    marginRight: 20,
   },
   treshBtn: {
     alignItems: "center",
     marginTop: 120,
+  },
+
+  activateCameraText: {
+    color: Colors.text_gray,
+    fontSize: Fonts.normal,
+    fontFamily: "roboto-regular",
   },
 });

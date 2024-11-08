@@ -16,4 +16,3 @@ export const Fonts = {
   large: 17,
   extraLarge: 30,
 };
-
