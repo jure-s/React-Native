@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, View, StyleSheet } from "react-native";
 import PhotoGallery from "./PhotoGallery";
 import Buttons from "../components/Buttons";
-import { Colors } from "../styles/global";
+import { Colors } from "../../styles/global";
 
 function GalleryModal({ visible, onClose, onSelectPhoto }) {
   return (

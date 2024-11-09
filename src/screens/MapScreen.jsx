@@ -1,30 +1,33 @@
 import MapView, { Marker } from "react-native-maps";
 import { View, StyleSheet } from "react-native";
-
-import * as Location from "expo-location";
 import React, { useState, useEffect } from "react";
-import { Colors } from "../styles/global";
+import * as Location from "expo-location";
 
 const MapScreen = ({ route }) => {
-const [location, setLocation] = useState(null);
+  const { locationGeo } = route.params;
+  const [location, setLocation] = useState(null);
+
   useEffect(() => {
-    if (!location) {
+    if (locationGeo && locationGeo.geo) {
+      setLocation({
+        latitude: locationGeo.geo.latitude,
+        longitude: locationGeo.geo.longitude,
+      });
+    } else {
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
           console.log("Permission to access location was denied");
+          return;
         }
-
-        let location = await Location.getCurrentPositionAsync({});
-
-        const coords = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        };
-        setLocation(coords);
+        let userLocation = await Location.getCurrentPositionAsync({});
+        setLocation({
+          latitude: userLocation.coords.latitude,
+          longitude: userLocation.coords.longitude,
+        });
       })();
     }
-  }, []);
+  }, [locationGeo]);
 
   return (
     <View style={styles.container}>
@@ -39,14 +42,11 @@ const [location, setLocation] = useState(null);
         showsUserLocation={true}
         mapType="standard"
         minZoomLevel={15}
-        onMapReady={() => console.log("Map is ready")}
-        onRegionChange={() => console.log("Region change")}
       >
-        {location !== null && (
+        {location && (
           <Marker
-            title="I am here"
-            description="Hello"
-            onPress={() => console.log("marker is pressed")}
+            title="Місцезнаходження"
+            description="Тут знаходиться маркер"
             coordinate={{
               latitude: location.latitude,
               longitude: location.longitude,
@@ -63,7 +63,7 @@ export default MapScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whites,
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

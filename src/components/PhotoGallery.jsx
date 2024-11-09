@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 import * as MediaLibrary from "expo-media-library";
-import { Colors } from "../styles/global";
+import { Colors } from "../../styles/global";
 
 export default function PhotoGallery({ onSelectPhoto }) {
   const [photos, setPhotos] = useState([]);

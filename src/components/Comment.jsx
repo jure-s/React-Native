@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import {Colors, Fonts} from "../styles/global";
+import { Colors, Fonts } from "../../styles/global";
 
 const Comment = ({ textComment, dateComment, userAvatar, isEven }) => {
   return (
@@ -12,7 +12,7 @@ const Comment = ({ textComment, dateComment, userAvatar, isEven }) => {
       {!isEven && (
         <Image
           style={[styles.containerAvatar, styles.avatarLeft]}
-          source={userAvatar}
+          source={{ uri: userAvatar }}
         />
       )}
       <View style={styles.containerText}>
@@ -24,7 +24,7 @@ const Comment = ({ textComment, dateComment, userAvatar, isEven }) => {
       {isEven && (
         <Image
           style={[styles.containerAvatar, styles.avatarRight]}
-          source={userAvatar}
+          source={{ uri: userAvatar }}
         />
       )}
     </View>
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
   containerAvatar: {
     width: 28,
     height: 28,
-    backgroundColor: Colors.light_gray,
+    borderColor: Colors.text_gray,
+    borderWidth: 1,
     borderRadius: 28,
   },
   containerText: {

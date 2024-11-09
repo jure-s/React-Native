@@ -1,5 +1,5 @@
 import { TouchableOpacity } from "react-native";
-import BackButtonIcon from "../icons/BackButtonIcon";
+import BackButtonIcon from "../../icons/BackButtonIcon";
 
 const BackButton = ({ onPress }) => {
   return (

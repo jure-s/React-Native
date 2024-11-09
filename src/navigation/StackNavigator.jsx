@@ -4,27 +4,45 @@ import RegistrationScreen from "../screens/RegistrationScreen";
 import CommentsScreen from "../screens/CommentsScreen";
 import MapScreen from "../screens/MapScreen";
 import ButtomTabNavigator from "./ButtomTabNavigator";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
-  return (
+
+  const user = useSelector((state) => state.auth.isLogged);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (user) {
+      navigation.navigate("Home");
+    }
+  }, [user, navigation]);
+
+    return (
     <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen
-        options={{ presentation: "modal", headerShown: false }}
-        name="Login"
-        component={LoginScreen}
-      />
-      <Stack.Screen
-        options={{ presentation: "modal", headerShown: false }}
-        name="Registration"
-        component={RegistrationScreen}
-      />
-      <Stack.Screen
-        options={{ presentation: "modal", headerShown: false }}
-        name="Home"
-        component={ButtomTabNavigator}
-      />
+      {user ? (
+        <Stack.Screen
+          options={{ presentation: "modal", headerShown: false }}
+          name="Home"
+          component={ButtomTabNavigator}
+        />
+      ) : (
+        <>
+          <Stack.Screen
+            options={{ presentation: "modal", headerShown: false }}
+            name="Login"
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            options={{ presentation: "modal", headerShown: false }}
+            name="Registration"
+            component={RegistrationScreen}
+          />
+        </>
+      )}
       <Stack.Screen
         options={{
           presentation: "modal",

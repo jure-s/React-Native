@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
-import {Colors} from "../styles/global";
+import { Colors } from "../../styles/global";
 
 const InputsCreate = ({ placeholder, onTextChange, value }) => {
   return (
